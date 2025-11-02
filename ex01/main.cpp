@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <vector>
 #include "iter.hpp"
 #include <iostream>
 /*
@@ -22,43 +24,38 @@ int main (void)
 }
 
 */
-template<typename T>  // Function template
-T const & max (T const & a, T const & b)
-{
-	return (a > b ? a : b);
-}
-
-int foo ( int x ) {
-	std::cout << "Long computing time" << std::endl;
-	return x;
-}
 
 int main ( void )
 {
-	int a = 12 ;
-	int b = 24 ;
-	std::cout << "Max of " << a << " and " << b << " is " ;
-	std::cout << max<int>(a, b) << std::endl;   //Explicit instantiaton ;
-	std::cout << "Max of " << a << " and " << b << " is " ;
-	std::cout << max(a, b) << std::endl;   //Implicit instantiaton. The compiler infers from the arguments
+	std::vector<int> v;
+	v.push_back(0);
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
+	v.push_back(4);
+	v.push_back(5);
+	v.push_back(6);
+	v.push_back(7);
+	v.push_back(8);
+	v.push_back(9);
 
-	float c = 12.5 ;
-	float d = 12.7 ;
-	std::cout << "Max of " << c << " and " << d << " is " ;
-	std::cout << max<float>(c, d) << std::endl;   //Explicit instantiaton ;
-	std::cout << "Max of " << c << " and " << d << " is " ;
-	std::cout << max(c, d) << std::endl;   //Implicit instantiaton. The compiler infers from the arguments
+	const std::vector<int> c(v);
 
-	char e = 'a' ;
-	char f = 'b' ;
-	std::cout << "Max of " << e << " and " << f << " is " ;
-	std::cout << max<char>(e, f) << std::endl;   //Explicit instantiaton ;
-	std::cout << "Max of " << e << " and " << f << " is " ;
-	std::cout << max(e, f) << std::endl;   //Implicit instantiaton. The compiler infers from the arguments
-
-
-	int ret = max<int>( foo(a), foo(b) );
-	std::cout << "Max of " << a << " and " << b << " is " ;
-	std::cout << ret << std::endl;   //Explicit instantiaton ;
+	//for_each(v.begin(), v.end(), showInt);
+	std::cout << "Original vector " << std::endl ; 
+	iter(v, v.size(), showInt<int>);
+	iter(v, v.size(), square<int>);
+	std::cout << "Squared  vector " << std::endl ; 
+	iter(v, v.size(), showInt<int>);
+	//for_each(v.begin(), v.end(), showInt<int>);
+/*	iter(c, c.size(), showInt<int>);
+	iter(c, c.size(), square<int>);
+	for_each(c.begin(), c.end(), showInt<const int>);
+*/
+	std::cout << "Original const vector " << std::endl ; 
+  	iter(c, c.size(), showInt<int>);
+//	iter(c, c.size(), square<int>);
+	std::cout << "Squared  const vector " << std::endl ; 
+	iter(c, c.size(), showInt<int>);
 return 0 ;
 }
