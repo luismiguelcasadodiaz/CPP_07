@@ -1,4 +1,6 @@
 #include <cstddef>
+#include <sstream>
+#include <stdexcept>
 template<typename T>
 class Array
 {
@@ -62,11 +64,25 @@ Array<T> & Array<T>::operator=( Array<T> const & other)
 template<typename T>
 T Array<T>::operator[](size_t const idx) const
 {
+	if ( this->_size <= idx)
+	{
+		std::stringstream ss;
+		ss << "Index " << idx << " out of range in array of size ";
+		ss << this->_size << "." ;
+		throw std::out_of_range(ss.str()); 
+	}
 	return this->a[idx] ;
 }
 template<typename T>
 T & Array<T>::operator[](size_t const idx)
 {
+		if ( this->_size <= idx)
+	{
+		std::stringstream ss;
+		ss << "Index " << idx << " out of range in array of size ";
+		ss << this->_size << "." ;
+		throw std::out_of_range(ss.str()); 
+	}
 	return this->a[idx] ;
 }
 
