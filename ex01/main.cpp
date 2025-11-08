@@ -3,31 +3,53 @@
 #include <list>
 #include "iter.hpp"
 #include <iostream>
-/*
-#include <vector>
 
-int main (void)
+class Awesome
 {
-	std::vector<int> v1 ;
-	std::vector::iter it;
-	std::vector::iter it_end = v1.end();
+  public:
+    Awesome( void ) : _n( 42 ) { return; }
+    int get( void ) const { return this->_n; }
+  private:
+    int _n;
+};
 
-	for (size_t i= 1; i <= 10 ; i++)
-	{
-		v1.push_back(i);
-	}
-	for (it = vi.begin(); it <= it_end ; ++it)
-	{
-		std::cout << it << std::endl ;
-	}
-	return 0;
-
+std::ostream & operator<<( std::ostream & o, Awesome const & rhs )
+{
+  o << rhs.get();
+  return o;
 }
 
-*/
+template< typename T >
+void print( T const & x )
+{
+  std::cout << x << std::endl;
+  return;
+}
+
 
 int main ( void )
 {
+
+{//array pointer
+  int tab[] = { 0, 1, 2, 3, 4 };
+  const int tabc[] = { 5, 6, 7, 8, 9 };
+  Awesome tab2[5];
+
+  const int len = 5;
+std::cout << "===== NON-CONST Array ==>" << std::endl;
+	iter( tab, len, print<const int> );
+	iter( tab, len, square<int> );
+	iter( tab, len, print<const int> );
+std::cout << "===== CONST Array ==>" << std::endl;
+	iter( tabc, len, print<const int> );
+	const int * tabc2 = iter( tabc, len, square<int> ) ;
+	iter( tabc2, len, print<const int> );
+
+  	iter( tab2, len, print<Awesome> );
+}
+
+
+{//vect container
 	std::vector<int> v;
 	v.push_back(0);
 	v.push_back(1);
@@ -60,7 +82,10 @@ int main ( void )
 	std::vector<int> c2 = iter(c, c.size(), static_cast<int(*)(int const &)>(square<int>));
 	std::cout << "Squared  const vector " << std::endl ; 
 	iter(c2, c2.size(), showInt<int>);
+}
 
+
+{//list container
 	std::list<int> l;
 	l.push_back(0);
 	l.push_back(1);
@@ -91,5 +116,6 @@ int main ( void )
 	std::list<int> lc2 = iter(lc, lc.size(), static_cast<int(*)(int const &)>(square<int>));
 	std::cout << "Squared  const list " << std::endl ; 
 	iter(lc2, lc2.size(), showInt<int>);
+}
 return 0 ;
 }

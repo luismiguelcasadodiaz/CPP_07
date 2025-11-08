@@ -64,7 +64,7 @@ Container  iter 	(	Container const & container,
 	return result ;
 }
 
-// 5. container with void non-const function (in-place modification)
+// 5. no-const container Address with void non-const function (in-place modification)
 template<typename Container>
 void iter 	(	Container * container, 
 				size_t l, 
@@ -75,11 +75,55 @@ void iter 	(	Container * container,
 	{
 		func(container[i]);
 	}
-	std::cout << " Array with const func" << std::endl;
+	std::cout << " non const Array with non-const void func" << std::endl;
 }
-// 6. container with void const function (in-place modification)
+// 6. non-const container Address with void const function (in-place modification)
 template<typename Container>
 void iter 	(	Container * container, 
+				size_t l, 
+				//void (*func)( Container const   )
+				void (*func)( Container   )				
+			)	
+{
+	for( size_t i=0 ; i < l; i++)
+	{
+		func(container[i]);
+	}
+	std::cout << " non cosnt Array with  void func" << std::endl;
+}
+// 6.bis non-const container Address with void const function (in-place modification)
+template<typename Container>
+void iter 	(	Container * container, 
+				size_t l, 
+				//void (*func)( Container const   )
+				Container (*func)( Container const   )
+			)	
+{
+	for( size_t i=0 ; i < l; i++)
+	{
+		func(container[i]);
+	}
+	std::cout << " non cosnt Array with const void func" << std::endl;
+}
+
+// 7. const container Address with void non-const function (in-place modification)
+template<typename Container>
+Container * iter 	(	Container const * container, 
+				size_t l, 
+				void (*func)( Container &  )
+			)	
+{
+	Container * result =const_cast<Container *>(container);
+	for( size_t i=0 ; i < l; i++)
+	{
+		func(result[i]);
+	}
+	std::cout << " non const Array with non-const void func" << std::endl;
+	return result ;
+}
+// 8. const container Address with void const function (in-place modification)
+template<typename Container>
+void iter 	(	Container const * container, 
 				size_t l, 
 				void (*func)( Container const &  )
 			)	
@@ -88,7 +132,7 @@ void iter 	(	Container * container,
 	{
 		func(container[i]);
 	}
-	std::cout << " Array with const func" << std::endl;
+	std::cout << " non cosnt Array with const void func" << std::endl;
 }
 
 
